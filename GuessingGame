@@ -1,0 +1,44 @@
+# GUESSING GAME
+# First, the program chooses a secret number x between 1 and 10.  
+import random
+x = random.randint(1,10)
+print("I'm thinking of a random integer between 1 and 10.")
+
+# Then, the program prompts the user to type in a number.
+print("You have 5 chances to guess it.")
+user_guess = int(input("Guess a number: "))
+ 
+number_of_games = 0
+while number_of_games <= 4:
+
+    # If the player guesses x correctly, the program will print a message and terminate.
+    if user_guess == x:
+        print("That's correct! Good guessing. :D")
+        break
+        
+        # Otherwise, the program should print a hint and then ask the user for another guess (see below).
+    
+        # If the user cannot guess x in his fifth guess, the program informs her that the game is lost and quits.
+    elif number_of_games == 4:
+        print("That's not it and that was your last guess. You loose. :)")
+        break
+    else:
+        number_of_games += 1
+        games_left = 5 - number_of_games
+        
+        # If the difference between x and the guess is greater than 5, the program prints ‘not even close’.
+        difference_btw_x_and_guess = abs(x - user_guess)
+        if difference_btw_x_and_guess > 5:
+            print("Not even close.")
+        
+        # If the difference between x and the guess is between 3 and 5 (inclusive), the program prints ‘close’.
+        if 3 <= difference_btw_x_and_guess <= 5:
+            print("Close.")
+        
+        # If the difference between x and the guess is less than 3, the program prints ‘almost there’.
+        if difference_btw_x_and_guess < 3:
+            print("Almost there.")
+    
+    # After each guess, the program also lets the player know how many guesses they have left.
+    print("You have", games_left, "guesses left.")
+    user_guess = int(input("Guess again: "))
