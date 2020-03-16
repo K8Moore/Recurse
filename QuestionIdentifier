@@ -1,0 +1,70 @@
+"""
+Created on Mon Mar 16, 2020
+
+@author: kate moore
+
+Title: Question Identifier
+    
+Purpose: Categorize the types of questions that appear in a given text in a dataframe.
+
+    Steps To Do:
+        1. import a text, called "text"
+        2. create a set of words that serve as identifiers of questions, called "q"
+        3. identify sentences in the text that include one of the q-identifiers 
+        4. add the type of question to the first column in a dataframe
+        5. add the sentence to the second column in the dataframe
+        6. print the dataframe for inspection
+    
+    Still to Figure Out:
+        1. How do I remove the None and blank spaces from my dataframe?
+        2. How can I do a better job of cleaning the data? 
+        3. BIG QUESTION: Now, how do I refractor this code so it can identify the type of question
+        (as opposed to identifying the question by a word that already exists in the sentence)
+"""
+
+### Packages ###
+import nltk
+import re
+
+
+
+### 1. A Text of Words ##
+raw = nltk.corpus.shakespeare.raw()
+text = re.sub('[A-Z0-9</>]+(?![a-z])', '', raw)
+
+
+
+### 2. Question Identifiers ###
+q = ['who','what','when','where','why']
+
+
+
+### 3. Identify Questions in Text ###
+
+# Here, I split the text into a list of sentences
+sentences = []
+sentences = text.split(".")
+print(sentences[1001]) # Check
+
+# Here, I create a dictionary into which I'm going to dump all relevant questions.
+sent_dict = {'who':[], 'what':[], 'when':[], 'where':[], 'why':[]}
+
+# Here, I create a dictionary of questions
+# Key = Question word, Value = Questions
+for word in q:
+    questions = []
+    for sentence in sentences:
+        if sentence.count(word) > 0:
+            questions.append(sentence)
+            sent_dict[word] = questions
+
+
+
+### 4-5. Create the DataFrame ###
+import pandas as pd
+df = pd.DataFrame.from_dict(sent_dict, orient='index')
+
+
+
+### 6. Print DataFrame ###
+print(df)
